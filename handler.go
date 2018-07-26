@@ -20,6 +20,12 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func TodoList(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	defer func() {
+		if err := recover(); err != nil {
+			result := Result{Code: "500", Data: err}
+			ResponseWithJson(w, result, 200)
+		}
+	}()
 	connstr := PGConnection{Host: host, Port: port, User: user, Password: password, Dbname: dbname}
 	db := PostgreSqlDB{Connstr: connstr, Sql: "select * from todo"}
 	todos := db.Open().Query(GetTodos)
@@ -28,6 +34,12 @@ func TodoList(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func TodoById(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	defer func() {
+		if err := recover(); err != nil {
+			result := Result{Code: "500", Data: err}
+			ResponseWithJson(w, result, 200)
+		}
+	}()
 	id := ps.ByName("id")[1:]
 	connstr := PGConnection{Host: host, Port: port, User: user, Password: password, Dbname: dbname}
 	db := PostgreSqlDB{Connstr: connstr, Sql: "select * from todo where tid = $1"}
@@ -37,6 +49,12 @@ func TodoById(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func TodoCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	defer func() {
+		if err := recover(); err != nil {
+			result := Result{Code: "500", Data: err}
+			ResponseWithJson(w, result, 200)
+		}
+	}()
 	connstr := PGConnection{Host: host, Port: port, User: user, Password: password, Dbname: dbname}
 	db := PostgreSqlDB{Connstr: connstr, Sql: "insert into todo(tid,title,content) VALUES ($1,$2,$3)"}
 	affect := db.Open().Prepare("tid3", "title3", "content3")
@@ -47,6 +65,12 @@ func TodoCreate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func TodoDelete(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	defer func() {
+		if err := recover(); err != nil {
+			result := Result{Code: "500", Data: err}
+			ResponseWithJson(w, result, 200)
+		}
+	}()
 	id := ps.ByName("id")
 	connstr := PGConnection{Host: host, Port: port, User: user, Password: password, Dbname: dbname}
 	db := PostgreSqlDB{Connstr: connstr, Sql: "delete from todo where tid = $1"}
@@ -58,6 +82,12 @@ func TodoDelete(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 }
 
 func TodoUpdate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	defer func() {
+		if err := recover(); err != nil {
+			result := Result{Code: "500", Data: err}
+			ResponseWithJson(w, result, 200)
+		}
+	}()
 	id := ps.ByName("id")
 	connstr := PGConnection{Host: host, Port: port, User: user, Password: password, Dbname: dbname}
 	db := PostgreSqlDB{Connstr: connstr, Sql: "update todo set title = $1,content = $2 where id = $3"}
