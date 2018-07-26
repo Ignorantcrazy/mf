@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Ignorantcrazy/mfgo"
 	"github.com/julienschmidt/httprouter"
 )
 
-func Loggin() Middleware {
+func Loggin() mfgo.Middleware {
 	return func(h httprouter.Handle) httprouter.Handle {
 		return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 			start := time.Now()
