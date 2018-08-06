@@ -1,30 +1,27 @@
 package main
 
-import (
-	"github.com/Ignorantcrazy/mfgo"
-)
-
-func AllRoutes() mfgo.Routes {
-	routes := mfgo.Routes{
-		mfgo.Route{Method: "GET",
+func AllRoutes() Routes {
+	routes := Routes{
+		Route{Method: "GET",
 			Path:   "/",
 			Handle: Index},
-		mfgo.Route{Method: "GET",
+		Route{Method: "GET",
 			Path:   "/todos",
 			Handle: TodoList,
-			Middlewares: []mfgo.Middleware{
+			Middlewares: []Middleware{
 				Loggin(),
+				CORS(),
 			}},
-		mfgo.Route{Method: "GET",
+		Route{Method: "GET",
 			Path:   "/todos/:id",
 			Handle: TodoById,
-			Middlewares: []mfgo.Middleware{
+			Middlewares: []Middleware{
 				Loggin(),
 			}},
-		mfgo.Route{Method: "POST",
+		Route{Method: "POST",
 			Path:   "/todos",
 			Handle: TodoCreate,
-			Middlewares: []mfgo.Middleware{
+			Middlewares: []Middleware{
 				Loggin(),
 			}},
 	}
